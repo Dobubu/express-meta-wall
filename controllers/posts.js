@@ -1,13 +1,13 @@
 const Posts = require('../model/posts');
 
+const handleSuccess = require('../service/handleSuccess');
+const handleError = require('../service/handleError');
+
 const posts = {
   async fetchPostList(res) {
     const data = await Posts.find();
 
-    res.status(200).json({
-      'status': 'success',
-      data
-    });
+    handleSuccess(res, data);
   },
   async createPost({ body, res }) {
     try {
@@ -21,17 +21,9 @@ const posts = {
         tags
       });
 
-      res.status(200).json({
-        'status': 'success',
-        data: newPost
-      });
+      handleSuccess(res, newPost);
     } catch (e) {
-      const errorMsg = e.message || 'parse error.';
-
-      res.status(400).json({
-        'status': 'false',
-        'message': errorMsg
-      });
+      handleError(res, e);
     };
   },
   async findDB() {
@@ -66,26 +58,15 @@ const posts = {
 
       const updatePostRes = await Posts.findByIdAndUpdate(id, payload, { new: true });
 
-      res.status(200).json({
-        'status': 'success',
-        data: updatePostRes
-      });
+      handleSuccess(res, updatePostRes);
     } catch (e) {
-      const errorMsg = e.message || 'parse error.';
-
-      res.status(400).json({
-        'status': 'false',
-        'message': errorMsg
-      });
-    }
+      handleError(res, e);
+    };
   },
   async deletePost(res) {
     await Posts.deleteMany({});
 
-    res.status(200).json({
-      'status': 'success',
-      data: []
-    });
+    handleSuccess(res, []);
   },
   async deletePostByID({ req, res }) {
     try {
@@ -96,17 +77,9 @@ const posts = {
 
       await Posts.findByIdAndDelete(id);
 
-      res.status(200).json({
-        'status': 'success',
-        'message': 'delete success'
-      });
+      handleSuccess(res, 'delete success');
     } catch (e) {
-      const errorMsg = e.message || 'parse error.';
-
-      res.status(400).json({
-        'status': 'false',
-        'message': errorMsg
-      });
+      handleError(res, e);
     };
   }
 };
