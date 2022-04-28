@@ -1,0 +1,147 @@
+{
+	"info": {
+		"_postman_id": "ee8eb9fe-8a20-4aad-baea-3346b2642289",
+		"name": "express-meta-wall-heroku-mischa",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://protected-reaches-46880.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"protected-reaches-46880",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/posts",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"abc 1\",\n    \"tags\": [\"node\", \"f2e\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"abc 1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://protected-reaches-46880.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"protected-reaches-46880",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/posts",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"abc aaa\",\n    \"tags\": [\"node\", \"f2e\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"abc aaa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://protected-reaches-46880.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"protected-reaches-46880",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/posts/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"abc aaa\",\n    \"tags\": [\"node\", \"f2e\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"abc aaa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://protected-reaches-46880.herokuapp.com/posts/626a4f64ffd948b7a118a2cf",
+					"protocol": "https",
+					"host": [
+						"protected-reaches-46880",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						"626a4f64ffd948b7a118a2cf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/posts/:id",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"abc 1 edit\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://protected-reaches-46880.herokuapp.com/posts/626a4fb7ffd948b7a118a2d6",
+					"protocol": "https",
+					"host": [
+						"protected-reaches-46880",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						"626a4fb7ffd948b7a118a2d6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
