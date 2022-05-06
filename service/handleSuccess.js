@@ -1,8 +1,8 @@
 const handleSuccess = (res, data) => {
-  res.status(200).json({
-    'status': 'success',
+  res.send({
+    status: true,
     data
-  });
+  }).end();
 };
 
 module.exports = handleSuccess;
