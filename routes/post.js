@@ -3,20 +3,10 @@ var router = express.Router();
 
 const postsControllers = require('../controllers/posts');
 
-router.post('/', (req, res, next) => {
-  const { body } = req;
+router.post('/',postsControllers.createPost);
 
-  postsControllers.createPost({ body, res });
-});
+router.patch('/:id', postsControllers.updatePostByID);
 
-router.patch('/:id', (req, res, next) => {
-  const { body } = req;
-
-  postsControllers.updatePostByID({ req, res, body })
-});
-
-router.delete('/:id', (req, res, next) => {
-  postsControllers.deletePostByID({ req, res });
-});
+router.delete('/:id', postsControllers.deletePostByID);
 
 module.exports = router;

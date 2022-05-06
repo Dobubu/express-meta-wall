@@ -3,12 +3,8 @@ var router = express.Router();
 
 const postsControllers = require('../controllers/posts');
 
-router.get('/', (req, res, next) => {
-  postsControllers.fetchPostList(res);
-});
+router.get('/',  postsControllers.fetchPostList);
 
-router.delete('/', (req, res, next) => {
-  postsControllers.deletePost(res);
-});
+router.delete('/', postsControllers.deletePost);
 
 module.exports = router;

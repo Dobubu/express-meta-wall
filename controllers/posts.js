@@ -4,14 +4,14 @@ const handleSuccess = require('../service/handleSuccess');
 const handleError = require('../service/handleError');
 
 const posts = {
-  async fetchPostList(res) {
+  async fetchPostList(req, res) {
     const data = await Posts.find();
 
     handleSuccess(res, data);
   },
-  async createPost({ body, res }) {
+  async createPost(req, res) {
     try {
-      const { name, image, content, type, tags } = body;
+      const { name, image, content, type, tags } = req.body;
 
       const newPost = await Posts.create({
         name,
@@ -29,13 +29,13 @@ const posts = {
   async findDB() {
     return await Posts.find();
   },
-  async updatePostByID({ req, res, body }) {
+  async updatePostByID(req, res) {
     try {
       const id = req.params.id;
       const isExist = await Posts.findById(id).exec();
       if(!isExist) throw new Error('post not exist.');
 
-      const { name, content, type, tags } = body;
+      const { name, content, type, tags } = req.body;
 
       if(!content) throw new Error('content field required.');
 
@@ -62,12 +62,12 @@ const posts = {
       handleError(res, e);
     };
   },
-  async deletePost(res) {
+  async deletePost(req, res) {
     await Posts.deleteMany({});
 
     handleSuccess(res, []);
   },
-  async deletePostByID({ req, res }) {
+  async deletePostByID(req, res) {
     try {
       const id = req.params.id;
       const isExist = await Posts.findById(id).exec();
