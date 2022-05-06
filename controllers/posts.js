@@ -32,9 +32,8 @@ const posts = {
   async updatePostByID({ req, res, body }) {
     try {
       const id = req.params.id;
-      const list = await posts.findDB();
-      const isExist = list.find(o => o.id === id);
-      if(!isExist) throw new Error('post not exist.')
+      const isExist = await Posts.findById(id).exec();
+      if(!isExist) throw new Error('post not exist.');
 
       const { name, content, type, tags } = body;
 
@@ -71,9 +70,8 @@ const posts = {
   async deletePostByID({ req, res }) {
     try {
       const id = req.params.id;
-      const list = await posts.findDB();
-      const isExist = list.find(o => o.id === id);
-      if(!isExist) throw new Error('post not exist.')
+      const isExist = await Posts.findById(id).exec();
+      if(!isExist) throw new Error('post not exist.');
 
       await Posts.findByIdAndDelete(id);
 
