@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const PostsSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: [true, 'name field required']
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "user",  // mongoose.model name。這邊是要 user 這個 model
+      required: [true, 'user ID field required']
     },
     image: {
       type: String,

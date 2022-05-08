@@ -12,7 +12,14 @@ const posts = {
         "apiKeyAuth": []
       }]
      */
-    const data = await Posts.find();
+
+    // 連到的欄位（path）：post 的 user 欄位
+    // 帶出的欄位（select）：name、photo
+    // -  這裡是指 user collection name、photo，因為 post user ref collection name 是 user
+    const data = await Posts.find().populate({
+      path: 'user',           
+      select: 'name photo'
+    });
     handleSuccess(res, data);
   },
   async createPost(req, res) {
@@ -36,10 +43,10 @@ const posts = {
       }
      */
     try {
-      const { name, image, content, type, tags } = req.body;
+      const { user, image, content, type, tags } = req.body;
 
       const newPost = await Posts.create({
-        name,
+        user,
         image,
         content,
         type,
