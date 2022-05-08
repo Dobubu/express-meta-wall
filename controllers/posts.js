@@ -13,13 +13,16 @@ const posts = {
       }]
      */
 
+    const sort = req.query.sort == "asc" ? "createdAt" : "-createdAt";
+    const q = !!req.query.q ? { "content": new RegExp(req.query.q) } : {};
+
     // 連到的欄位（path）：post 的 user 欄位
     // 帶出的欄位（select）：name、photo
     // -  這裡是指 user collection name、photo，因為 post user ref collection name 是 user
-    const data = await Posts.find().populate({
+    const data = await Posts.find(q).populate({
       path: 'user',           
       select: 'name photo'
-    });
+    }).sort(sort);
     handleSuccess(res, data);
   },
   async createPost(req, res) {
