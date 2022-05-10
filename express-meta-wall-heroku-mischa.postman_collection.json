@@ -26,7 +26,7 @@
 			"response": []
 		},
 		{
-			"name": "/posts",
+			"name": "/post",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -40,7 +40,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/posts",
+					"raw": "https://protected-reaches-46880.herokuapp.com/post",
 					"protocol": "https",
 					"host": [
 						"protected-reaches-46880",
@@ -48,7 +48,7 @@
 						"com"
 					],
 					"path": [
-						"posts"
+						"post"
 					]
 				}
 			},
@@ -84,7 +84,7 @@
 			"response": []
 		},
 		{
-			"name": "/posts/:id",
+			"name": "/post/:id",
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -98,7 +98,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/posts/626a4f64ffd948b7a118a2cf",
+					"raw": "https://protected-reaches-46880.herokuapp.com/post/627a23a431ce26bbdfd8464f",
 					"protocol": "https",
 					"host": [
 						"protected-reaches-46880",
@@ -106,15 +106,15 @@
 						"com"
 					],
 					"path": [
-						"posts",
-						"626a4f64ffd948b7a118a2cf"
+						"post",
+						"627a23a431ce26bbdfd8464f"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "/posts/:id",
+			"name": "/post/:id",
 			"request": {
 				"method": "PATCH",
 				"header": [],
@@ -128,7 +128,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/posts/626a4fb7ffd948b7a118a2d6",
+					"raw": "https://protected-reaches-46880.herokuapp.com/post/626a4fb7ffd948b7a118a2d6",
 					"protocol": "https",
 					"host": [
 						"protected-reaches-46880",
@@ -136,7 +136,7 @@
 						"com"
 					],
 					"path": [
-						"posts",
+						"post",
 						"626a4fb7ffd948b7a118a2d6"
 					]
 				}
