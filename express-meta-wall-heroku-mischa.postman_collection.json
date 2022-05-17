@@ -32,7 +32,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"abc 1\",\n    \"tags\": [\"node\", \"f2e\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"abc 1\"\n}",
+					"raw": "{\n    \"user\": \"62836a76c60e3aa9e5297978\",\n    \"tags\": [\"test\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"hello\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -90,7 +90,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"abc aaa\",\n    \"tags\": [\"node\", \"f2e\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"abc aaa\"\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -98,7 +98,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/post/627a23a431ce26bbdfd8464f",
+					"raw": "https://protected-reaches-46880.herokuapp.com/post/62836ab1e76682d7e38e979a",
 					"protocol": "https",
 					"host": [
 						"protected-reaches-46880",
@@ -107,7 +107,7 @@
 					],
 					"path": [
 						"post",
-						"627a23a431ce26bbdfd8464f"
+						"62836ab1e76682d7e38e979a"
 					]
 				}
 			},
@@ -138,6 +138,26 @@
 					"path": [
 						"post",
 						"626a4fb7ffd948b7a118a2d6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://protected-reaches-46880.herokuapp.com/users",
+					"protocol": "https",
+					"host": [
+						"protected-reaches-46880",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users"
 					]
 				}
 			},
