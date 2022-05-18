@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const Posts = require('../model/posts');
 
 const handleSuccess = require('../service/handleSuccess');
@@ -45,21 +47,17 @@ const posts = {
         }
       }
      */
-    try {
-      const { user, image, content, type, tags } = req.body;
+    const { user, image, content, type, tags } = req.body;
 
-      const newPost = await Posts.create({
-        user,
-        image,
-        content,
-        type,
-        tags
-      });
+    const newPost = await Posts.create({
+      user,
+      image,
+      content,
+      type,
+      tags
+    });
 
-      handleSuccess(res, newPost);
-    } catch (e) {
-      handleError(e, next);
-    };
+    handleSuccess(res, newPost);
   },
   async findDB() {
     return await Posts.find();
@@ -80,37 +78,45 @@ const posts = {
         }
       }
      */
-    try {
-      const id = req.params.id;
-      const isExist = await Posts.findById(id).exec();
-      if(!isExist) throw new Error('post not exist.');
-
-      const { name, content, type, tags } = req.body;
-
-      if(!content) throw new Error('content field required.');
-
-      let payload = { content };
-      if(name) {
-        payload = { ...payload, name };
-      };
-      if(type) {
-        if(type === "group" || type === "person") {
-          payload = { ...payload, type };
-        } else {
-          throw new Error('type is invalid, valid values include [group, person].');
-        };
-      };
-      if(tags) {
-        if(!tags.length) throw new Error("tags can't empty.");
-        payload = { ...payload, tags };
-      };
-
-      const updatePostRes = await Posts.findByIdAndUpdate(id, payload, { new: true });
-
-      handleSuccess(res, updatePostRes);
-    } catch (e) {
-      handleError(e, next);
+    const id = req.params.id;
+    
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if(!isValid) {
+      return handleError('the id is invalid.', next);
     };
+
+    const isExist = await Posts.findById(id).exec();
+    if(!isExist) {
+      return handleError('post not exist.', next);
+    }
+
+    const { name, content, type, tags } = req.body;
+
+    if(!content) {
+      return handleError('content field required.', next);
+    }
+
+    let payload = { content };
+    if(name) {
+      payload = { ...payload, name };
+    };
+    if(type) {
+      if(type === "group" || type === "person") {
+        payload = { ...payload, type };
+      } else {
+        return handleError('the type is invalid, valid values include [group, person].', next);
+      };
+    };
+    if(tags) {
+      if(!tags.length) {
+        return handleError("tags can't empty.", next);
+      }
+      payload = { ...payload, tags };
+    };
+
+    const updatePostRes = await Posts.findByIdAndUpdate(id, payload, { new: true });
+
+    handleSuccess(res, updatePostRes);
   },
   async deletePost(req, res) {
     /**
@@ -132,17 +138,21 @@ const posts = {
         "apiKeyAuth": []
       }]
      */
-    try {
-      const id = req.params.id;
-      const isExist = await Posts.findById(id).exec();
-      if(!isExist) throw new Error('post not exist.');
+    const id = req.params.id;
 
-      await Posts.findByIdAndDelete(id);
-
-      handleSuccess(res, 'delete success');
-    } catch (e) {
-      handleError(e, next);
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if(!isValid) {
+      return handleError('the id is invalid.', next);
     };
+    
+    const isExist = await Posts.findById(id).exec();
+    if(!isExist) {
+      return handleError('post not exist.', next);
+    };
+
+    await Posts.findByIdAndDelete(id);
+
+    handleSuccess(res, 'delete success');
   }
 };
 
