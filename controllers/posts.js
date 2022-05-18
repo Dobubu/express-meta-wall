@@ -25,7 +25,7 @@ const posts = {
     }).sort(sort);
     handleSuccess(res, data);
   },
-  async createPost(req, res) {
+  async createPost(req, res, next) {
     /**
      * #swagger.tags = ['Posts']
      * #swagger.summary = 'Create post'
@@ -58,13 +58,13 @@ const posts = {
 
       handleSuccess(res, newPost);
     } catch (e) {
-      handleError(res, e);
+      handleError(e, next);
     };
   },
   async findDB() {
     return await Posts.find();
   },
-  async updatePostByID(req, res) {
+  async updatePostByID(req, res, next) {
     /**
      * #swagger.tags = ['Posts']
      * #swagger.summary = 'Update post by ID'
@@ -109,7 +109,7 @@ const posts = {
 
       handleSuccess(res, updatePostRes);
     } catch (e) {
-      handleError(res, e);
+      handleError(e, next);
     };
   },
   async deletePost(req, res) {
@@ -124,7 +124,7 @@ const posts = {
 
     handleSuccess(res, []);
   },
-  async deletePostByID(req, res) {
+  async deletePostByID(req, res, next) {
     /**
      * #swagger.tags = ['Posts']
      * #swagger.summary = 'Delete post by ID'
@@ -141,7 +141,7 @@ const posts = {
 
       handleSuccess(res, 'delete success');
     } catch (e) {
-      handleError(res, e);
+      handleError(e, next);
     };
   }
 };

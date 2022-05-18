@@ -1,10 +1,9 @@
-const handleError = (res, e) => {
-  const errorMsg = e.message || 'parse error.';
+const handleError = (e, next, statusCode = 400) => {
+  const customError = e;
 
-  res.status(400).send({
-    status: false,
-    'message': errorMsg
-  }).end();
+  customError.statusCode = statusCode;
+  customError.isOperational = true;
+  next(customError);
 };
 
 module.exports = handleError;
