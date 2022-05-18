@@ -15,6 +15,14 @@ var postsRouter = require('./routes/posts');
 
 var app = express();
 
+// 程式錯誤
+process.on('uncaughtException', err => {
+  // 記錄錯誤下來，等到服務都處理完後，停掉該 process
+	console.error('Uncaughted Exception！')
+	console.error(err);
+	process.exit(1);
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -45,6 +53,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// 未捕捉到的 catch 
+process.on('unhandledRejection', (err, promise) => {
+  console.error('未捕捉到的 rejection：', promise, '原因：', err);
 });
 
 module.exports = app;
