@@ -7,6 +7,8 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json') ;
 
+const resError = require('./service/resErrorMessage');
+
 require('./connections');
 
 var indexRouter = require('./routes/index');
@@ -50,9 +52,18 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  res.status(err.statusCode || 500).json({
-    "error": err.message
-  })
+  if (err.name === 'ValidationError'){
+    err.statusCode = 400;
+    err.isOperational = true;
+  }
+
+  err.statusCode = err.statusCode || 500;
+
+  if (process.env.NODE_ENV === 'dev') {
+    return resError.dev(err, res);
+  };
+  
+  resError.prod(err, res);
 });
 
 // 未捕捉到的 catch 
