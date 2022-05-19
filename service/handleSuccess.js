@@ -1,5 +1,5 @@
-const handleSuccess = (res, data) => {
-  res.send({
+const handleSuccess = (res, data, statusCode = 200) => {
+  res.status(statusCode).send({
     status: true,
     data
   }).end();
