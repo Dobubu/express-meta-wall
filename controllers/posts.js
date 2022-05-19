@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Posts = require('../model/posts');
+const Post = require('../model/posts');
 
 const handleSuccess = require('../service/handleSuccess');
 const handleError = require('../service/handleError');
@@ -8,7 +8,7 @@ const handleError = require('../service/handleError');
 const posts = {
   async fetchPostList(req, res) {
     /**
-     * #swagger.tags = ['Posts']
+     * #swagger.tags = ['Post']
      * #swagger.summary = 'Get post list'
      * #swagger.security = [{
         "apiKeyAuth": []
@@ -21,7 +21,7 @@ const posts = {
     // 連到的欄位（path）：post 的 user 欄位
     // 帶出的欄位（select）：name、photo
     // -  這裡是指 user collection name、photo，因為 post user ref collection name 是 user
-    const data = await Posts.find(q).populate({
+    const data = await Post.find(q).populate({
       path: 'user',           
       select: 'name photo'
     }).sort(sort);
@@ -29,7 +29,7 @@ const posts = {
   },
   async createPost(req, res, next) {
     /**
-     * #swagger.tags = ['Posts']
+     * #swagger.tags = ['Post']
      * #swagger.summary = 'Create post'
      * #swagger.security = [{
         "apiKeyAuth": []
@@ -49,7 +49,7 @@ const posts = {
      */
     const { user, image, content, type, tags } = req.body;
 
-    const newPost = await Posts.create({
+    const newPost = await Post.create({
       user,
       image,
       content,
@@ -60,11 +60,11 @@ const posts = {
     handleSuccess(res, newPost);
   },
   async findDB() {
-    return await Posts.find();
+    return await Post.find();
   },
   async updatePostByID(req, res, next) {
     /**
-     * #swagger.tags = ['Posts']
+     * #swagger.tags = ['Post']
      * #swagger.summary = 'Update post by ID'
      * #swagger.security = [{
         "apiKeyAuth": []
@@ -85,7 +85,7 @@ const posts = {
       return handleError('the id is invalid.', next);
     };
 
-    const isExist = await Posts.findById(id).exec();
+    const isExist = await Post.findById(id).exec();
     if(!isExist) {
       return handleError('post not exist.', next);
     }
@@ -114,25 +114,25 @@ const posts = {
       payload = { ...payload, tags };
     };
 
-    const updatePostRes = await Posts.findByIdAndUpdate(id, payload, { new: true });
+    const updatePostRes = await Post.findByIdAndUpdate(id, payload, { new: true });
 
     handleSuccess(res, updatePostRes);
   },
   async deletePost(req, res) {
     /**
-     * #swagger.tags = ['Posts']
+     * #swagger.tags = ['Post']
      * #swagger.summary = 'Delete posts'
      * #swagger.security = [{
         "apiKeyAuth": []
       }]
      */
-    await Posts.deleteMany({});
+    await Post.deleteMany({});
 
     handleSuccess(res, []);
   },
   async deletePostByID(req, res, next) {
     /**
-     * #swagger.tags = ['Posts']
+     * #swagger.tags = ['Post']
      * #swagger.summary = 'Delete post by ID'
      * #swagger.security = [{
         "apiKeyAuth": []
@@ -145,12 +145,12 @@ const posts = {
       return handleError('the id is invalid.', next);
     };
     
-    const isExist = await Posts.findById(id).exec();
+    const isExist = await Post.findById(id).exec();
     if(!isExist) {
       return handleError('post not exist.', next);
     };
 
-    await Posts.findByIdAndDelete(id);
+    await Post.findByIdAndDelete(id);
 
     handleSuccess(res, 'delete success');
   }
