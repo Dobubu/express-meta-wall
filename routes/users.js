@@ -8,4 +8,6 @@ router.get('/', usersControllers.fetchUsers);
 
 router.post('/sign_up', handleErrorAsync(usersControllers.signUp));
 
+router.post('/sign_in', handleErrorAsync(usersControllers.signIn));
+
 module.exports = router;

@@ -53,6 +53,26 @@ const users = {
     });
 
     generateSendJWT(newUser, res, 201);
+  },
+  async signIn(req, res, next) {
+    /**
+     * #swagger.tags = ['User']
+     * #swagger.summary = 'sign in'
+     */
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return handleError('帳號密碼不可為空！', next);
+    };
+
+    const user = await User.findOne({ email }).select('+password');
+    const auth = await bcrypt.compare(password, user.password);
+
+    if(!auth){
+      return handleError('您的密碼不正確！', next);
+    };
+
+    generateSendJWT(user, res);
   }
 };
 
