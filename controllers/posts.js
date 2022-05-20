@@ -48,20 +48,21 @@ const posts = {
         }
       }
      */
-    const { user, image, content, type, tags } = req.body;
+    const { image, content, type, tags } = req.body;
+    const { id } = req.user
 
-    const isValid = mongoose.Types.ObjectId.isValid(user);
+    const isValid = mongoose.Types.ObjectId.isValid(id);
     if(!isValid) {
       return handleError('the user id is invalid.', next);
     };
 
-    const isExist = await User.findById(user).exec();
+    const isExist = await User.findById(id).exec();
     if(!isExist) {
       return handleError('the user not exist.', next);
     };
 
     const newPost = await Post.create({
-      user,
+      user: id,
       image,
       content,
       type,
