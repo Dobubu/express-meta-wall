@@ -73,6 +73,16 @@ const users = {
     };
 
     generateSendJWT(user, res);
+  },
+  async fetchProfile(req, res) {
+    /**
+     * #swagger.tags = ['User']
+     * #swagger.summary = 'fetch profile'
+     * #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+     */
+    handleSuccess(res, req.user);
   }
 };
 
