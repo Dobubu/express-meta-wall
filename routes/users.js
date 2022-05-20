@@ -5,14 +5,14 @@ const handleErrorAsync = require('../service/handleErrorAsync');
 const usersControllers = require('../controllers/users');
 const { isAuth } = require('../middleware/auth');
 
-router.get('/', usersControllers.fetchUsers);
+router.get('/users', isAuth, usersControllers.fetchUsers);
 
-router.post('/sign_up', handleErrorAsync(usersControllers.signUp));
+router.post('/user/sign_up', handleErrorAsync(usersControllers.signUp));
 
-router.post('/sign_in', handleErrorAsync(usersControllers.signIn));
+router.post('/user/sign_in', handleErrorAsync(usersControllers.signIn));
 
-router.get('/profile', isAuth, handleErrorAsync(usersControllers.fetchProfile));
+router.get('/user/profile', isAuth, handleErrorAsync(usersControllers.fetchProfile));
 
-router.post('/updatePassword', isAuth, handleErrorAsync(usersControllers.updatePassword));
+router.post('/user/updatePassword', isAuth, handleErrorAsync(usersControllers.updatePassword));
 
 module.exports = router;

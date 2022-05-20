@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(usersRouter);
 app.use(postsRouter);
 
 // catch 404 and forward to error handler
