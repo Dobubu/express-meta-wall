@@ -83,6 +83,38 @@ const users = {
       }]
      */
     handleSuccess(res, req.user);
+  },
+  async updatePassword(req, res, next) {
+    /**
+     * #swagger.tags = ['User']
+     * #swagger.summary = 'update password'
+     * #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+     */
+    const { password, confirmPassword } = req.body;
+
+    if (!password || !confirmPassword) {
+      return handleError('上述欄位不可為空！', next);
+    };
+
+    if (password !== confirmPassword) {
+      return handleError('密碼不一致！', next);
+    };
+
+    if (!validator.isLength(password, { min: 8 }) || !validator.isLength(confirmPassword, { min: 8 })) {
+      return handleError('密碼字數低於 8 碼！', next);
+    };
+
+    const newPassword = await bcrypt.hash(password, 12);
+
+    const payload = { 
+      password: newPassword
+    };
+
+    const updateUser = await User.findByIdAndUpdate(req.user.id, payload, { new: true });
+
+    generateSendJWT(updateUser, res);
   }
 };
 

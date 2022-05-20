@@ -13,4 +13,6 @@ router.post('/sign_in', handleErrorAsync(usersControllers.signIn));
 
 router.get('/profile', isAuth, handleErrorAsync(usersControllers.fetchProfile));
 
+router.post('/updatePassword', isAuth, handleErrorAsync(usersControllers.updatePassword));
+
 module.exports = router;
