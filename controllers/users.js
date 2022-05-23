@@ -84,6 +84,39 @@ const users = {
      */
     handleSuccess(res, req.user);
   },
+  async updateProfile(req, res, next) {
+    /**
+     * #swagger.tags = ['User']
+     * #swagger.summary = 'update profile'
+     * #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+     */
+    const { name, photo, sex } = req.body;
+    
+    if(!name) {
+      return handleError('暱稱不可為空！', next);
+    };
+  
+    const isSex = ['male', 'female'].find(o => o === sex);
+    if((!isSex && sex) || sex === '') {
+      return handleError('性別資料有誤！', next);
+    };
+
+    if(photo && photo === '') {
+      return handleError('照片不可為空！', next);
+    };
+
+    const payload = { 
+      name,
+      photo,
+      sex
+    };
+
+    const updateUser = await User.findByIdAndUpdate(req.user.id, payload, { new: true });
+
+    handleSuccess(res, updateUser);
+  },
   async updatePassword(req, res, next) {
     /**
      * #swagger.tags = ['User']
