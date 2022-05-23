@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Post = require('../model/posts');
+const User = require('../model/users');
 
 const handleSuccess = require('../service/handleSuccess');
 const handleError = require('../service/handleError');
@@ -49,6 +50,16 @@ const posts = {
      */
     const { user, image, content, type, tags } = req.body;
 
+    const isValid = mongoose.Types.ObjectId.isValid(user);
+    if(!isValid) {
+      return handleError('the user id is invalid.', next);
+    };
+
+    const isExist = await User.findById(user).exec();
+    if(!isExist) {
+      return handleError('the user not exist.', next);
+    };
+
     const newPost = await Post.create({
       user,
       image,
@@ -58,9 +69,6 @@ const posts = {
     });
 
     handleSuccess(res, newPost);
-  },
-  async findDB() {
-    return await Post.find();
   },
   async updatePostByID(req, res, next) {
     /**
