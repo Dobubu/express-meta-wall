@@ -6,162 +6,369 @@
 	},
 	"item": [
 		{
-			"name": "/posts",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/posts",
-					"protocol": "https",
-					"host": [
-						"protected-reaches-46880",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/post",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"user\": \"62836a76c60e3aa9e5297978\",\n    \"tags\": [\"test\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"hello\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "user",
+			"item": [
+				{
+					"name": "/user/sign_up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\",\n    \"email\": \"test@gmail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/user/sign_up",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"user",
+								"sign_up"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/post",
-					"protocol": "https",
-					"host": [
-						"protected-reaches-46880",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"post"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/posts",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"abc aaa\",\n    \"tags\": [\"node\", \"f2e\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"abc aaa\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/user/sign_in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"status code is 200\"] = responseCode.code === 200;",
+									"",
+									"const res = JSON.parse(responseBody);",
+									"tests[\"has token ?\"] = typeof res.data.token === 'string';",
+									"",
+									"pm.collectionVariables.set(\"meta_wall_token\", res.data.token);",
+									""
+								],
+								"type": "text/javascript"
+							}
 						}
-					}
-				},
-				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/posts",
-					"protocol": "https",
-					"host": [
-						"protected-reaches-46880",
-						"herokuapp",
-						"com"
 					],
-					"path": [
-						"posts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/post/:id",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@gmail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/user/sign_in",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"user",
+								"sign_in"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/post/62836ab1e76682d7e38e979a",
-					"protocol": "https",
-					"host": [
-						"protected-reaches-46880",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"post",
-						"62836ab1e76682d7e38e979a"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/post/:id",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"content\": \"abc 1 edit\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}/users",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"users"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/post/626a4fb7ffd948b7a118a2d6",
-					"protocol": "https",
-					"host": [
-						"protected-reaches-46880",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"post",
-						"626a4fb7ffd948b7a118a2d6"
-					]
+				{
+					"name": "/user/profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/user/profile",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/profile",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test_abc2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/user/profile",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/updatePassword",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"123456781\",\n    \"confirmPassword\": \"123456781\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/user/updatePassword",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"user",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "/users",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://protected-reaches-46880.herokuapp.com/users",
-					"protocol": "https",
-					"host": [
-						"protected-reaches-46880",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"users"
-					]
+			"name": "post",
+			"item": [
+				{
+					"name": "/posts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}/posts",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"62836a76c60e3aa9e5297978\",\n    \"tags\": [\"test\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"hello\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/post",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"abc 1 edit\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/post/626a4fb7ffd948b7a118a2d6",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"post",
+								"626a4fb7ffd948b7a118a2d6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/posts",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"abc aaa\",\n    \"tags\": [\"node\", \"f2e\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"abc aaa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/posts",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/post/62836ab1e76682d7e38e979a",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"post",
+								"62836ab1e76682d7e38e979a"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "meta_wall_token",
+			"value": ""
 		}
 	]
 }
