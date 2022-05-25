@@ -419,6 +419,45 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "upload",
+			"item": [
+				{
+					"name": "/upload/imgur",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": "/Users/mischa/img/ce863b0354f51248ecb17c47d4d5c2e6.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_local}}/upload/imgur",
+							"host": [
+								"{{base_url_local}}"
+							],
+							"path": [
+								"upload",
+								"imgur"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
