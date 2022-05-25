@@ -5,7 +5,8 @@ const handleErrorAsync = require('../service/handleErrorAsync');
 const uploadControllers = require('../controllers/upload');
 const { isAuth } = require('../middleware/auth');
 const { uploadImg } = require('../middleware/upload');
+const { uploadLimiter } = require('../middleware/rateLimit');
 
-router.post('/upload/imgur', isAuth, uploadImg, handleErrorAsync(uploadControllers.uploadImgur));
+router.post('/upload/imgur', isAuth, uploadLimiter, uploadImg, handleErrorAsync(uploadControllers.uploadImgur));
 
 module.exports = router;
