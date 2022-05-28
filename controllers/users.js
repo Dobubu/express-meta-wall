@@ -1,7 +1,9 @@
+const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const User = require('../model/users');
+const Post = require('../model/posts');
 
 const handleSuccess = require('../service/handleSuccess');
 const handleError = require('../service/handleError');
@@ -148,6 +150,16 @@ const users = {
     const updateUser = await User.findByIdAndUpdate(req.user.id, payload, { new: true });
 
     generateSendJWT(updateUser, res);
+  },
+  async fetchLikesList(req, res) {
+    const list = await Post.find({
+      likes: { $in: [req.user.id] }
+    }).populate({
+      path: "user",
+      select: "name _id photo"
+    });
+
+    handleSuccess(res, list);
   }
 };
 

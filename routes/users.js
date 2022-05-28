@@ -17,4 +17,6 @@ router.patch('/user/profile', isAuth, handleErrorAsync(usersControllers.updatePr
 
 router.post('/user/updatePassword', isAuth, handleErrorAsync(usersControllers.updatePassword));
 
+router.get('/user/likes/list', isAuth, handleErrorAsync(usersControllers.fetchLikesList));
+
 module.exports = router;
