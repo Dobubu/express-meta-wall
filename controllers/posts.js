@@ -28,6 +28,19 @@ const posts = {
     }).sort(sort);
     handleSuccess(res, data);
   },
+  async fetchUserPostList (req, res) {
+    const userId = req.params.id;
+
+    const sort = req.query.sort == "asc" ? "createdAt" : "-createdAt";
+    const q = !!req.query.q ? { "content": new RegExp(req.query.q) } : {};
+
+    const data = await Post.find({ user: userId, ...q }).populate({
+      path: 'user',           
+      select: 'name photo _id'
+    }).sort(sort);;
+
+    handleSuccess(res, data);
+  },
   async createPost(req, res, next) {
     /**
      * #swagger.tags = ['Post']
