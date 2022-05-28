@@ -28,6 +28,24 @@ const posts = {
     }).sort(sort);
     handleSuccess(res, data);
   },
+  async fetchPostInfo(req, res, next) {
+    const id = req.params.id;
+    
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if(!isValid) {
+      return handleError('the id is invalid.', next);
+    };
+
+    const isExist = await Post.findById(id).populate({
+      path: 'user',           
+      select: 'name photo'
+    }).exec();
+    if(!isExist) {
+      return handleError('post not exist.', next);
+    };
+
+    handleSuccess(res, isExist);
+  },
   async fetchUserPostList (req, res) {
     const userId = req.params.id;
 

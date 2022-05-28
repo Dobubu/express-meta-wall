@@ -7,6 +7,8 @@ const { isAuth } = require('../middleware/auth');
 
 router.get('/posts', isAuth, postsControllers.fetchPostList);
 
+router.get('/post/:id', isAuth, postsControllers.fetchPostInfo);
+
 router.get('/posts/user/:id', isAuth, postsControllers.fetchUserPostList);
 
 router.post('/post', isAuth, handleErrorAsync(postsControllers.createPost));
