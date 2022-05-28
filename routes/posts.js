@@ -11,6 +11,10 @@ router.post('/post', isAuth, handleErrorAsync(postsControllers.createPost));
 
 router.patch('/post/:id', isAuth, handleErrorAsync(postsControllers.updatePostByID));
 
+router.post('/post/:id/like', isAuth, handleErrorAsync(postsControllers.addLike));
+
+router.delete('/post/:id/like', isAuth, handleErrorAsync(postsControllers.deleteLike));
+
 router.delete('/posts', isAuth, postsControllers.deletePost);
 
 router.delete('/post/:id', isAuth, handleErrorAsync(postsControllers.deletePostByID));

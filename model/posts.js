@@ -15,10 +15,12 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: [true, 'content field required']
     },
-    likes: {
-      type: Number,
-      default: 0
-    },
+    likes: [
+      {
+        type: mongoose.Schema.ObjectId, 
+        ref: "User"
+      }
+    ],
     comments: {
       type: Number,
       default: 0

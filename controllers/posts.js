@@ -127,6 +127,36 @@ const posts = {
 
     handleSuccess(res, updatePostRes);
   },
+  async addLike(req, res) {
+    const id = req.params.id;
+
+    await Post.findOneAndUpdate(
+      { _id: id },
+      { $addToSet: { likes: req.user.id } }
+    );
+
+    const addLikeRes = {
+      postId: id,
+      userId: req.user.id
+    };
+
+    handleSuccess(res, addLikeRes, 201);
+  },
+  async deleteLike(req, res) {
+    const id = req.params.id;
+
+    await Post.findOneAndUpdate(
+      { _id: id },
+      { $pull: { likes: req.user.id } }
+    );
+
+    const deleteLikeRes = {
+      postId: id,
+      userId: req.user.id
+    };
+
+    handleSuccess(res, deleteLikeRes, 201);
+  },
   async deletePost(req, res) {
     /**
      * #swagger.tags = ['Post']
