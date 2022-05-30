@@ -11,7 +11,7 @@ router.post('/user/sign_up', handleErrorAsync(usersControllers.signUp));
 
 router.post('/user/sign_in', handleErrorAsync(usersControllers.signIn));
 
-router.get('/user/profile', isAuth, handleErrorAsync(usersControllers.fetchProfile));
+router.get('/user/profile/:id', isAuth, handleErrorAsync(usersControllers.fetchProfile));
 
 router.patch('/user/profile', isAuth, handleErrorAsync(usersControllers.updateProfile));
 

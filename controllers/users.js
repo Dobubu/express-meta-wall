@@ -84,7 +84,19 @@ const users = {
         "apiKeyAuth": []
       }]
      */
-    handleSuccess(res, req.user);
+    const id = req.params.id;
+
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if(!isValid) {
+      return handleError('the id is invalid.', next);
+    };
+
+    const isExist = await User.findById(id).exec();
+    if(!isExist) {
+      return handleError('user not exist.', next);
+    };
+
+    handleSuccess(res, isExist);
   },
   async updateProfile(req, res, next) {
     /**

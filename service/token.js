@@ -12,6 +12,7 @@ const generateSendJWT = (user, res, statusCode = 200) => {
   const dict = {
     token,
     name: user.name,
+    id: user._id
   };
 
   handleSuccess(res, dict, statusCode);
