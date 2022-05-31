@@ -172,7 +172,67 @@ const users = {
     });
 
     handleSuccess(res, list);
-  }
+  },
+  async followUser(req, res) {
+    const followUserId = req.params.id;
+    const userId = req.user.id;
+
+    if (followUserId === userId) {
+      return handleError('您無法追蹤自己！', next, 401);
+    };
+
+    // 針對自己
+    await User.updateOne(
+      {
+        _id: userId,
+      },
+      {
+        $addToSet: { following: { user: followUserId } }
+      }
+    );
+
+    // 針對對方
+    await User.updateOne(
+      {
+        _id: followUserId,
+      },
+      {
+        $addToSet: { followers: { user: userId } }
+      }
+    );
+
+    handleSuccess(res, '您已成功追蹤！');
+  },
+  async unFollowUser(req, res) {
+    const unFollowUserId = req.params.id;
+    const userId = req.user.id;
+
+    if (unFollowUserId === userId) {
+      return handleError('您無法取消追蹤自己', next, 401);
+    };
+
+    // 針對自己
+    await User.updateOne(
+      {
+        _id: userId,
+      },
+      {
+        $pull: { following: { user: unFollowUserId } }
+      }
+    );
+
+    // 針對對方
+    await User.updateOne(
+      {
+        _id: unFollowUserId,
+      },
+      {
+        $pull: { followers: { user: userId } }
+      }
+    );
+
+    handleSuccess(res, '您已成功取消追蹤！');
+  },
 };
 
 module.exports = users;

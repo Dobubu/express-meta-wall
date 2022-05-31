@@ -19,4 +19,8 @@ router.post('/user/updatePassword', isAuth, handleErrorAsync(usersControllers.up
 
 router.get('/user/likes/list', isAuth, handleErrorAsync(usersControllers.fetchLikesList));
 
+router.post('/user/:id/follow', isAuth, handleErrorAsync(usersControllers.followUser));
+
+router.delete('/user/:id/follow', isAuth, handleErrorAsync(usersControllers.unFollowUser));
+
 module.exports = router;

@@ -28,6 +28,30 @@ const UserSchema = new mongoose.Schema(
       minLength: 8,
       select: false,
     },
+    followers: [
+      {
+        user: { 
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ],
+    following: [
+      {
+        user: { 
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ]
   },
   {
     versionKey: false,
