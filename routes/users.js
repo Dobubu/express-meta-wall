@@ -23,4 +23,6 @@ router.post('/user/:id/follow', isAuth, handleErrorAsync(usersControllers.follow
 
 router.delete('/user/:id/follow', isAuth, handleErrorAsync(usersControllers.unFollowUser));
 
+router.get('/user/following/list', isAuth, handleErrorAsync(usersControllers.fetchFollowingList));
+
 module.exports = router;

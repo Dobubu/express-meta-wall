@@ -233,6 +233,30 @@ const users = {
 
     handleSuccess(res, '您已成功取消追蹤！');
   },
+  async fetchFollowingList(req, res) {
+    const id = req.user.id;
+
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if(!isValid) {
+      return handleError('the id is invalid.', next);
+    };
+
+    const isExist = await User.findById(id).populate({
+      path: 'following',
+      populate: {
+        path: 'user',
+        model: 'user',
+        select: 'name photo'
+      }
+    }).exec();
+    if(!isExist) {
+      return handleError('user not exist.', next);
+    };
+
+    const followingListRes = isExist.following;
+
+    handleSuccess(res, followingListRes);
+  },
 };
 
 module.exports = users;
