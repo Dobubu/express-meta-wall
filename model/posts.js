@@ -21,10 +21,6 @@ const PostSchema = new mongoose.Schema(
         ref: "User"
       }
     ],
-    comments: {
-      type: Number,
-      default: 0
-    },
     createdAt: {
       type: Date,
       default: Date.now
@@ -41,8 +37,17 @@ const PostSchema = new mongoose.Schema(
   },
   {
     versionKey: false,
+    toJSON: { virtuals: true },   // 注意：有使用 virtual 要加
+    toObject: { virtuals: true }, // 注意：有使用 virtual 要加
   }
 );
+
+// .virtual()，偷掛一個 comments 到 post document 上去
+PostSchema.virtual('comments', {
+  ref: 'Comment',         // mongoose.model name。這邊是指要拉 Comment 這個 model
+  foreignField: 'post',   // 查 Comment 的 post 欄位
+  localField: '_id'       // 用 _id，找出 post 欄位（foreignField）裡面有沒有一樣的 id
+});
 
 const Post = mongoose.model('Post', PostSchema);
 

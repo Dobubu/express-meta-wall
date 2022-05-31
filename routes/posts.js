@@ -23,4 +23,6 @@ router.delete('/posts', isAuth, postsControllers.deletePost);
 
 router.delete('/post/:id', isAuth, handleErrorAsync(postsControllers.deletePostByID));
 
+router.post('/post/:id/comment', isAuth, handleErrorAsync(postsControllers.addComment));
+
 module.exports = router;

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Post = require('../model/posts');
 const User = require('../model/users');
+const Comment = require('../model/comments');
 
 const handleSuccess = require('../service/handleSuccess');
 const handleError = require('../service/handleError');
@@ -25,6 +26,9 @@ const posts = {
     const data = await Post.find(q).populate({
       path: 'user',           
       select: 'name photo'
+    }).populate({   // 注意，假如沒用 populate() 掛上由 .virtual() 產生的 comments，將不會出現該欄位
+      path: 'comments',
+      select: 'comment user createdAt'
     }).sort(sort);
     handleSuccess(res, data);
   },
@@ -39,6 +43,9 @@ const posts = {
     const isExist = await Post.findById(id).populate({
       path: 'user',           
       select: 'name photo'
+    }).populate({   // 注意，假如沒用 populate() 掛上由 .virtual() 產生的 comments，將不會出現該欄位
+      path: 'comments',
+      select: 'comment user createdAt'
     }).exec();
     if(!isExist) {
       return handleError('post not exist.', next);
@@ -55,6 +62,9 @@ const posts = {
     const data = await Post.find({ user: userId, ...q }).populate({
       path: 'user',           
       select: 'name photo _id'
+    }).populate({   // 注意，假如沒用 populate() 掛上由 .virtual() 產生的 comments，將不會出現該欄位
+      path: 'comments',
+      select: 'comment user createdAt'
     }).sort(sort);;
 
     handleSuccess(res, data);
@@ -223,6 +233,23 @@ const posts = {
     await Post.findByIdAndDelete(id);
 
     handleSuccess(res, 'delete success');
+  },
+  async addComment(req, res, next) {
+    const userId = req.user.id;
+    const postId = req.params.id;
+    const { comment } = req.body;
+
+    const addComment = await Comment.create({
+      post: postId,
+      user: userId,
+      comment
+    });
+
+    const addCommentRes = {
+      comments: addComment
+    };
+
+    handleSuccess(res, addCommentRes, 201);
   }
 };
 
