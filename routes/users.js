@@ -4,6 +4,7 @@ var router = express.Router();
 const handleErrorAsync = require('../service/handleErrorAsync');
 const usersControllers = require('../controllers/users');
 const { isAuth } = require('../middleware/auth');
+const { isValidObjectId, isValidUser } = require('../middleware/isValid');
 
 router.get('/users', isAuth, usersControllers.fetchUsers);
 
@@ -27,7 +28,7 @@ router.post('/user/sign_in', handleErrorAsync(async (req, res, next) => {
   usersControllers.signIn(req, res, next);
 }));
 
-router.get('/user/profile/:id', isAuth, handleErrorAsync(async (req, res, next) => {
+router.get('/user/profile/:id', isAuth, isValidObjectId, isValidUser, handleErrorAsync(async (req, res, next) => {
   /**
    * #swagger.tags = ['User']
    * #swagger.summary = 'Get user profile'
@@ -75,7 +76,7 @@ router.get('/user/likes/list', isAuth, handleErrorAsync(async (req, res, next) =
   usersControllers.fetchLikesList(req, res, next);
 }));
 
-router.post('/user/:id/follow', isAuth, handleErrorAsync(async (req, res, next) => {
+router.post('/user/:id/follow', isAuth, isValidObjectId, isValidUser, handleErrorAsync(async (req, res, next) => {
   /**
    * #swagger.tags = ['User']
    * #swagger.summary = 'Follow user by Id'
@@ -87,7 +88,7 @@ router.post('/user/:id/follow', isAuth, handleErrorAsync(async (req, res, next) 
   usersControllers.followUser(req, res, next);
 }));
 
-router.delete('/user/:id/follow', isAuth, handleErrorAsync(async (req, res, next) => {
+router.delete('/user/:id/follow', isAuth, isValidObjectId, isValidUser, handleErrorAsync(async (req, res, next) => {
   /**
    * #swagger.tags = ['User']
    * #swagger.summary = 'UnFollow user by Id'

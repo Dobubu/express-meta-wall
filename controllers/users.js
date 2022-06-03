@@ -46,6 +46,10 @@ const users = {
       return handleError('上述欄位不可為空！', next);
     };
 
+    if (!validator.isLength(name, { min: 2 })) {
+      return handleError('暱稱至少 2 個字元以上！', next);
+    };
+
     if (!validator.isEmail(email)) {
       return handleError('Email 格式不正確！', next);
     };
@@ -71,9 +75,20 @@ const users = {
       return handleError('帳號密碼不可為空！', next);
     };
 
-    const user = await User.findOne({ email }).select('+password');
-    const auth = await bcrypt.compare(password, user.password);
+    if (!validator.isEmail(email)) {
+      return handleError('Email 格式不正確！', next);
+    };
 
+    if (!validator.isLength(password, { min: 8 })) {
+      return handleError('密碼字數低於 8 碼！', next);
+    };
+
+    const user = await User.findOne({ email }).select('+password');
+    if(!user){
+      return handleError('查無使用者！', next);
+    };
+
+    const auth = await bcrypt.compare(password, user.password);
     if(!auth){
       return handleError('您的密碼不正確！', next);
     };
@@ -81,19 +96,7 @@ const users = {
     generateSendJWT(user, res);
   },
   async fetchProfile(req, res) {
-    const id = req.params.id;
-
-    const isValid = mongoose.Types.ObjectId.isValid(id);
-    if(!isValid) {
-      return handleError('the id is invalid.', next);
-    };
-
-    const isExist = await User.findById(id).exec();
-    if(!isExist) {
-      return handleError('user not exist.', next);
-    };
-
-    handleSuccess(res, isExist);
+    handleSuccess(res, req.existUser);
   },
   async updateProfile(req, res, next) {
     const { name, photo, sex } = req.body;
@@ -147,8 +150,10 @@ const users = {
     generateSendJWT(updateUser, res);
   },
   async fetchLikesList(req, res) {
+    const id = req.user.id;
+
     const list = await Post.find({
-      likes: { $in: [req.user.id] }
+      likes: { $in: [id] }
     }).populate({
       path: "user",
       select: "name _id photo"
@@ -156,7 +161,7 @@ const users = {
 
     handleSuccess(res, list);
   },
-  async followUser(req, res) {
+  async followUser(req, res, next) {
     const followUserId = req.params.id;
     const userId = req.user.id;
 
@@ -186,7 +191,7 @@ const users = {
 
     handleSuccess(res, '您已成功追蹤！');
   },
-  async unFollowUser(req, res) {
+  async unFollowUser(req, res, next) {
     const unFollowUserId = req.params.id;
     const userId = req.user.id;
 
@@ -218,11 +223,6 @@ const users = {
   },
   async fetchFollowingList(req, res) {
     const id = req.user.id;
-
-    const isValid = mongoose.Types.ObjectId.isValid(id);
-    if(!isValid) {
-      return handleError('the id is invalid.', next);
-    };
 
     const isExist = await User.findById(id).populate({
       path: 'following',

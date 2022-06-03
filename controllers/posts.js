@@ -43,11 +43,6 @@ const posts = {
 
     const id = req.params.id;
     
-    const isValid = mongoose.Types.ObjectId.isValid(id);
-    if(!isValid) {
-      return handleError('the id is invalid.', next);
-    };
-
     const isExist = await Post.findById(id).populate({
       path: 'user',           
       select: 'name photo'
@@ -55,6 +50,7 @@ const posts = {
       path: 'comments',
       select: 'comment user createdAt'
     }).exec();
+
     if(!isExist) {
       return handleError('post not exist.', next);
     };
@@ -87,16 +83,20 @@ const posts = {
   },
   async createPost(req, res, next) {
     const { image, content, type, tags } = req.body;
-    const { id } = req.user
+    const { id } = req.user;
+
+    if(!content) {
+      return handleError('content field required.', next);
+    };
 
     const isValid = mongoose.Types.ObjectId.isValid(id);
     if(!isValid) {
-      return handleError('the user id is invalid.', next);
+      return handleError('The id is invalid.', next);
     };
 
     const isExist = await User.findById(id).exec();
     if(!isExist) {
-      return handleError('the user not exist.', next);
+      return handleError('User not exist.', next);
     };
 
     const newPost = await Post.create({
@@ -112,16 +112,6 @@ const posts = {
   async updatePostByID(req, res, next) {
     const id = req.params.id;
     
-    const isValid = mongoose.Types.ObjectId.isValid(id);
-    if(!isValid) {
-      return handleError('the id is invalid.', next);
-    };
-
-    const isExist = await Post.findById(id).exec();
-    if(!isExist) {
-      return handleError('post not exist.', next);
-    }
-
     const { name, content, type, tags } = req.body;
 
     if(!content) {
@@ -132,6 +122,7 @@ const posts = {
     if(name) {
       payload = { ...payload, name };
     };
+
     if(type) {
       if(type === "group" || type === "person") {
         payload = { ...payload, type };
@@ -139,6 +130,7 @@ const posts = {
         return handleError('the type is invalid, valid values include [group, person].', next);
       };
     };
+
     if(tags) {
       if(!tags.length) {
         return handleError("tags can't empty.", next);
@@ -194,16 +186,6 @@ const posts = {
   },
   async deletePostByID(req, res, next) {
     const id = req.params.id;
-
-    const isValid = mongoose.Types.ObjectId.isValid(id);
-    if(!isValid) {
-      return handleError('the id is invalid.', next);
-    };
-    
-    const isExist = await Post.findById(id).exec();
-    if(!isExist) {
-      return handleError('post not exist.', next);
-    };
 
     await Post.findByIdAndDelete(id);
 

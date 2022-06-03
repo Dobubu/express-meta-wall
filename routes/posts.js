@@ -4,12 +4,13 @@ var router = express.Router();
 const handleErrorAsync = require('../service/handleErrorAsync');
 const postsControllers = require('../controllers/posts');
 const { isAuth } = require('../middleware/auth');
+const { isValidObjectId, isValidPost, isValidUser } = require('../middleware/isValid');
 
 router.get('/posts', isAuth, postsControllers.fetchPostList);
 
-router.get('/post/:id', isAuth, postsControllers.fetchPostInfo);
+router.get('/post/:id', isAuth, isValidObjectId, postsControllers.fetchPostInfo);
 
-router.get('/posts/user/:id', isAuth, postsControllers.fetchUserPostList);
+router.get('/posts/user/:id', isAuth, isValidObjectId, isValidUser, postsControllers.fetchUserPostList);
 
 router.post('/post', isAuth, handleErrorAsync(async (req, res, next) => {
   /**
@@ -35,7 +36,7 @@ router.post('/post', isAuth, handleErrorAsync(async (req, res, next) => {
   postsControllers.createPost(req, res, next);
 }));
 
-router.patch('/post/:id', isAuth, handleErrorAsync(async (req, res, next) => {
+router.patch('/post/:id', isAuth, isValidObjectId, isValidPost, handleErrorAsync(async (req, res, next) => {
   /**
    * #swagger.tags = ['Post']
    * #swagger.summary = 'Update post by Id'
@@ -55,7 +56,7 @@ router.patch('/post/:id', isAuth, handleErrorAsync(async (req, res, next) => {
   postsControllers.updatePostByID(req, res, next);
 }));
 
-router.post('/post/:id/like', isAuth, handleErrorAsync(async (req, res, next) => {
+router.post('/post/:id/like', isAuth, isValidObjectId, isValidPost, handleErrorAsync(async (req, res, next) => {
   /**
    * #swagger.tags = ['Post']
    * #swagger.summary = 'Add post like by Id'
@@ -67,7 +68,7 @@ router.post('/post/:id/like', isAuth, handleErrorAsync(async (req, res, next) =>
   postsControllers.addLike(req, res, next);
 }));
 
-router.delete('/post/:id/like', isAuth, handleErrorAsync(async(req, res, next) => {
+router.delete('/post/:id/like', isAuth, isValidObjectId, isValidPost, handleErrorAsync(async(req, res, next) => {
   /**
    * #swagger.tags = ['Post']
    * #swagger.summary = 'Delete post like by Id'
@@ -81,7 +82,7 @@ router.delete('/post/:id/like', isAuth, handleErrorAsync(async(req, res, next) =
 
 router.delete('/posts', isAuth, postsControllers.deletePosts);
 
-router.delete('/post/:id', isAuth, handleErrorAsync(async (req, res, next) => {
+router.delete('/post/:id', isAuth, isValidObjectId, isValidPost, handleErrorAsync(async (req, res, next) => {
   /**
    * #swagger.tags = ['Post']
    * #swagger.summary = 'Delete post by Id'
@@ -93,7 +94,7 @@ router.delete('/post/:id', isAuth, handleErrorAsync(async (req, res, next) => {
   postsControllers.deletePostByID(req, res, next);
 }));
 
-router.post('/post/:id/comment', isAuth, handleErrorAsync(async (req, res, next) => {
+router.post('/post/:id/comment', isAuth, isValidObjectId, isValidPost, handleErrorAsync(async (req, res, next) => {
   /**
    * #swagger.tags = ['Post']
    * #swagger.summary = 'Add post comment by Id'
