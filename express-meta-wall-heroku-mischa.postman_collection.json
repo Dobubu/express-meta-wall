@@ -6,10 +6,87 @@
 	},
 	"item": [
 		{
+			"name": "user 沒用到的",
+			"item": [
+				{
+					"name": "/users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}/users",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/users",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "user",
 			"item": [
 				{
 					"name": "/user/sign_up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"status code is 200\"] = responseCode.code === 200;",
+									"",
+									"const res = JSON.parse(responseBody);",
+									"tests[\"has token ?\"] = typeof res.data.token === 'string';",
+									"",
+									"pm.collectionVariables.set(\"meta_wall_token\", res.data.token);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -80,9 +157,9 @@
 					"response": []
 				},
 				{
-					"name": "/users",
+					"name": "/user/updatePassword",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
@@ -90,20 +167,30 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"123456781\",\n    \"confirmPassword\": \"123456781\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{base_url_prod}}/users",
+							"raw": "{{base_url_prod}}/user/updatePassword",
 							"host": [
 								"{{base_url_prod}}"
 							],
 							"path": [
-								"users"
+								"user",
+								"updatePassword"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/user/profile",
+					"name": "/user/profile/:id",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -126,13 +213,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url_prod}}/user/profile",
+							"raw": "{{base_url_prod}}/user/profile/6294980e26660a3c34ec934a",
 							"host": [
 								"{{base_url_prod}}"
 							],
 							"path": [
 								"user",
-								"profile"
+								"profile",
+								"6294980e26660a3c34ec934a"
 							]
 						}
 					},
@@ -172,7 +260,7 @@
 					"response": []
 				},
 				{
-					"name": "/user/updatePassword",
+					"name": "/user/:id/follow",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -184,7 +272,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"password\": \"123456781\",\n    \"confirmPassword\": \"123456781\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -192,25 +280,55 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url_prod}}/user/updatePassword",
+							"raw": "{{base_url_prod}}/user/6294983226660a3c34ec9350/follow",
 							"host": [
 								"{{base_url_prod}}"
 							],
 							"path": [
 								"user",
-								"updatePassword"
+								"6294983226660a3c34ec9350",
+								"follow"
 							]
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "post",
-			"item": [
+				},
 				{
-					"name": "/posts",
+					"name": "/user/:id/follow",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/user/6294983226660a3c34ec9350/follow",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"user",
+								"6294983226660a3c34ec9350",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/likes/list",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -221,21 +339,23 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url_prod}}/posts",
+							"raw": "{{base_url_prod}}/user/likes/list",
 							"host": [
 								"{{base_url_prod}}"
 							],
 							"path": [
-								"posts"
+								"user",
+								"likes",
+								"list"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/post",
+					"name": "/user/following/list",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
@@ -243,27 +363,25 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"user\": \"62836a76c60e3aa9e5297978\",\n    \"tags\": [\"test\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"hello\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{base_url_prod}}/post",
+							"raw": "{{base_url_prod}}/user/following/list",
 							"host": [
 								"{{base_url_prod}}"
 							],
 							"path": [
-								"post"
+								"user",
+								"following",
+								"list"
 							]
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "post 沒用到的",
+			"item": [
 				{
 					"name": "/post/:id",
 					"request": {
@@ -324,6 +442,199 @@
 							],
 							"path": [
 								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "post",
+			"item": [
+				{
+					"name": "/posts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}/posts",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}/post/6291da28aef35a8805896e5b",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"post",
+								"6291da28aef35a8805896e5b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"62836a76c60e3aa9e5297978\",\n    \"tags\": [\"test\"],\n    \"type\": \"group\",\n    \"image\": \"http://dummyimage.com/300x300.png/dddddd/000000\",\n    \"content\": \"hello\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/post",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/:id/like",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}/post/6291da28aef35a8805896e5b/like",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"post",
+								"6291da28aef35a8805896e5b",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/:id/like",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}/post/6290bf0094a4210d5133810d/like",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"post",
+								"6290bf0094a4210d5133810d",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/:id/comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\": \"sleep ...\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}/post/62958bb126660a3c34ec9ab4/comment",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"post",
+								"62958bb126660a3c34ec9ab4",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/posts/user/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{meta_wall_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}/posts/user/6290cb6894a4210d51338122",
+							"host": [
+								"{{base_url_prod}}"
+							],
+							"path": [
+								"posts",
+								"user",
+								"6290cb6894a4210d51338122"
 							]
 						}
 					},
