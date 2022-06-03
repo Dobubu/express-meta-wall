@@ -7,6 +7,8 @@ const { isAuth } = require('../middleware/auth');
 
 router.get('/users', isAuth, usersControllers.fetchUsers);
 
+router.delete('/users', isAuth, usersControllers.deleteUsers);
+
 router.post('/user/sign_up', handleErrorAsync(usersControllers.signUp));
 
 router.post('/user/sign_in', handleErrorAsync(usersControllers.signIn));

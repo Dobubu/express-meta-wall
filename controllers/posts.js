@@ -198,7 +198,7 @@ const posts = {
 
     handleSuccess(res, deleteLikeRes, 201);
   },
-  async deletePost(req, res) {
+  async deletePosts(req, res) {
     /**
      * #swagger.tags = ['Post']
      * #swagger.summary = 'Delete posts'

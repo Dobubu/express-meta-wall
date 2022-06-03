@@ -21,6 +21,18 @@ const users = {
     const data = await User.find();
     handleSuccess(res, data);
   },
+  async deleteUsers(req, res) {
+    /**
+     * #swagger.tags = ['User']
+     * #swagger.summary = 'Delete users'
+     * #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+     */
+    await User.deleteMany({});
+
+    handleSuccess(res, []);
+  },
   async signUp(req, res, next) {
     /**
      * #swagger.tags = ['User']

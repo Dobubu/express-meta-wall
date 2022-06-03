@@ -19,7 +19,7 @@ router.post('/post/:id/like', isAuth, handleErrorAsync(postsControllers.addLike)
 
 router.delete('/post/:id/like', isAuth, handleErrorAsync(postsControllers.deleteLike));
 
-router.delete('/posts', isAuth, postsControllers.deletePost);
+router.delete('/posts', isAuth, postsControllers.deletePosts);
 
 router.delete('/post/:id', isAuth, handleErrorAsync(postsControllers.deletePostByID));
 
