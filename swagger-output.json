@@ -22,10 +22,347 @@
   "consumes": [],
   "produces": [],
   "paths": {
-    "/post/": {
+    "/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user list.",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete users",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user/sign_up": {
       "post": {
         "tags": [
-          "Posts"
+          "User"
+        ],
+        "summary": "Sign up",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/sign_in": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Sign in",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/profile/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user profile",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user/profile": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user profile",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user/updatePassword": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user password",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user/likes/list": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user like list",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user/{id}/follow": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Follow user by Id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "UnFollow user by Id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user/following/list": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user following list",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/posts": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Get post list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "sort",
+            "in": "query"
+          },
+          {
+            "name": "q",
+            "in": "query"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Delete posts",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/post/{id}": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Get post info by Id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Update post by Id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Update post",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "hello222"
+                }
+              },
+              "required": [
+                "content"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Delete post by Id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/posts/user/{id}": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Get user post list by Id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query"
+          },
+          {
+            "name": "q",
+            "in": "query"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/post": {
+      "post": {
+        "tags": [
+          "Post"
         ],
         "summary": "Create post",
         "description": "",
@@ -78,37 +415,18 @@
         ]
       }
     },
-    "/post/{id}": {
-      "patch": {
+    "/post/{id}/like": {
+      "post": {
         "tags": [
-          "Posts"
+          "Post"
         ],
-        "summary": "Update post by ID",
+        "summary": "Add post like by Id",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "obj",
-            "in": "body",
-            "description": "Update post",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "content": {
-                  "type": "string",
-                  "example": "hello222"
-                }
-              },
-              "required": [
-                "content"
-              ]
-            },
             "type": "string"
           }
         ],
@@ -121,9 +439,9 @@
       },
       "delete": {
         "tags": [
-          "Posts"
+          "Post"
         ],
-        "summary": "Delete post by ID",
+        "summary": "Delete post like by Id",
         "description": "",
         "parameters": [
           {
@@ -141,26 +459,35 @@
         ]
       }
     },
-    "/posts/": {
-      "get": {
+    "/post/{id}/comment": {
+      "post": {
         "tags": [
-          "Posts"
+          "Post"
         ],
-        "summary": "Get post list",
+        "summary": "Add post comment by Id",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {},
         "security": [
           {
             "apiKeyAuth": []
           }
         ]
-      },
-      "delete": {
+      }
+    },
+    "/upload/imgur": {
+      "post": {
         "tags": [
-          "Posts"
+          "Upload"
         ],
-        "summary": "Delete posts",
+        "summary": "Upload file to imgur",
         "description": "",
         "parameters": [],
         "responses": {},

@@ -13,7 +13,7 @@ const users = {
   async fetchUsers(req, res) {
     /**
      * #swagger.tags = ['User']
-     * #swagger.summary = 'fetch user list.'
+     * #swagger.summary = 'Get user list.'
      * #swagger.security = [{
         "apiKeyAuth": []
       }]
@@ -34,10 +34,6 @@ const users = {
     handleSuccess(res, []);
   },
   async signUp(req, res, next) {
-    /**
-     * #swagger.tags = ['User']
-     * #swagger.summary = 'sign up'
-     */
     const data = await User.find().select('+email');;
     const { name, email, password } = req.body;
 
@@ -69,10 +65,6 @@ const users = {
     generateSendJWT(newUser, res, 201);
   },
   async signIn(req, res, next) {
-    /**
-     * #swagger.tags = ['User']
-     * #swagger.summary = 'sign in'
-     */
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -89,13 +81,6 @@ const users = {
     generateSendJWT(user, res);
   },
   async fetchProfile(req, res) {
-    /**
-     * #swagger.tags = ['User']
-     * #swagger.summary = 'fetch profile'
-     * #swagger.security = [{
-        "apiKeyAuth": []
-      }]
-     */
     const id = req.params.id;
 
     const isValid = mongoose.Types.ObjectId.isValid(id);
@@ -111,13 +96,6 @@ const users = {
     handleSuccess(res, isExist);
   },
   async updateProfile(req, res, next) {
-    /**
-     * #swagger.tags = ['User']
-     * #swagger.summary = 'update profile'
-     * #swagger.security = [{
-        "apiKeyAuth": []
-      }]
-     */
     const { name, photo, sex } = req.body;
     
     if(!name) {
@@ -144,13 +122,6 @@ const users = {
     handleSuccess(res, updateUser);
   },
   async updatePassword(req, res, next) {
-    /**
-     * #swagger.tags = ['User']
-     * #swagger.summary = 'update password'
-     * #swagger.security = [{
-        "apiKeyAuth": []
-      }]
-     */
     const { password, confirmPassword } = req.body;
 
     if (!password || !confirmPassword) {

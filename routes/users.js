@@ -9,22 +9,106 @@ router.get('/users', isAuth, usersControllers.fetchUsers);
 
 router.delete('/users', isAuth, usersControllers.deleteUsers);
 
-router.post('/user/sign_up', handleErrorAsync(usersControllers.signUp));
+router.post('/user/sign_up', handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'Sign up'
+   */
 
-router.post('/user/sign_in', handleErrorAsync(usersControllers.signIn));
+  usersControllers.signUp(req, res, next);
+}));
 
-router.get('/user/profile/:id', isAuth, handleErrorAsync(usersControllers.fetchProfile));
+router.post('/user/sign_in', handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'Sign in'
+   */
 
-router.patch('/user/profile', isAuth, handleErrorAsync(usersControllers.updateProfile));
+  usersControllers.signIn(req, res, next);
+}));
 
-router.post('/user/updatePassword', isAuth, handleErrorAsync(usersControllers.updatePassword));
+router.get('/user/profile/:id', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'Get user profile'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
 
-router.get('/user/likes/list', isAuth, handleErrorAsync(usersControllers.fetchLikesList));
+  usersControllers.fetchProfile(req, res, next);
+}));
 
-router.post('/user/:id/follow', isAuth, handleErrorAsync(usersControllers.followUser));
+router.patch('/user/profile', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'Update user profile'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
 
-router.delete('/user/:id/follow', isAuth, handleErrorAsync(usersControllers.unFollowUser));
+  usersControllers.updateProfile(req, res, next);
+}));
 
-router.get('/user/following/list', isAuth, handleErrorAsync(usersControllers.fetchFollowingList));
+router.post('/user/updatePassword', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'Update user password'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
+
+  usersControllers.updatePassword(req, res, next);
+}));
+
+router.get('/user/likes/list', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'Get user like list'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
+
+  usersControllers.fetchLikesList(req, res, next);
+}));
+
+router.post('/user/:id/follow', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'Follow user by Id'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
+
+  usersControllers.followUser(req, res, next);
+}));
+
+router.delete('/user/:id/follow', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'UnFollow user by Id'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
+
+  usersControllers.unFollowUser(req, res, next);
+}));
+
+router.get('/user/following/list', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'Get user following list'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
+
+  usersControllers.fetchFollowingList(req, res, next);
+}));
 
 module.exports = router;

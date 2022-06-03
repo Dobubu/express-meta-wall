@@ -33,6 +33,14 @@ const posts = {
     handleSuccess(res, data);
   },
   async fetchPostInfo(req, res, next) {
+    /**
+     * #swagger.tags = ['Post']
+     * #swagger.summary = 'Get post info by Id'
+     * #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+    */
+
     const id = req.params.id;
     
     const isValid = mongoose.Types.ObjectId.isValid(id);
@@ -54,6 +62,14 @@ const posts = {
     handleSuccess(res, isExist);
   },
   async fetchUserPostList (req, res) {
+    /**
+     * #swagger.tags = ['Post']
+     * #swagger.summary = 'Get user post list by Id'
+     * #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+    */
+
     const userId = req.params.id;
 
     const sort = req.query.sort == "asc" ? "createdAt" : "-createdAt";
@@ -70,25 +86,6 @@ const posts = {
     handleSuccess(res, data);
   },
   async createPost(req, res, next) {
-    /**
-     * #swagger.tags = ['Post']
-     * #swagger.summary = 'Create post'
-     * #swagger.security = [{
-        "apiKeyAuth": []
-      }]
-     * #swagger.parameters['obj] = {
-        in: 'body',
-        required: true,
-        description: 'Create post',
-        schema: {
-          $name: 'abc',
-          image: '',
-          $content: 'hello',
-          $type: 'group',
-          $tags: ['node', 'f2e'],
-        }
-      }
-     */
     const { image, content, type, tags } = req.body;
     const { id } = req.user
 
@@ -113,21 +110,6 @@ const posts = {
     handleSuccess(res, newPost);
   },
   async updatePostByID(req, res, next) {
-    /**
-     * #swagger.tags = ['Post']
-     * #swagger.summary = 'Update post by ID'
-     * #swagger.security = [{
-        "apiKeyAuth": []
-      }]
-     * #swagger.parameters['obj] = {
-        in: 'body',
-        description: 'Update post',
-        required: true,
-        schema: {
-          $content: 'hello222',
-        }
-      }
-     */
     const id = req.params.id;
     
     const isValid = mongoose.Types.ObjectId.isValid(id);
@@ -211,13 +193,6 @@ const posts = {
     handleSuccess(res, []);
   },
   async deletePostByID(req, res, next) {
-    /**
-     * #swagger.tags = ['Post']
-     * #swagger.summary = 'Delete post by ID'
-     * #swagger.security = [{
-        "apiKeyAuth": []
-      }]
-     */
     const id = req.params.id;
 
     const isValid = mongoose.Types.ObjectId.isValid(id);

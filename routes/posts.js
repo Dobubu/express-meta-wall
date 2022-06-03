@@ -11,18 +11,98 @@ router.get('/post/:id', isAuth, postsControllers.fetchPostInfo);
 
 router.get('/posts/user/:id', isAuth, postsControllers.fetchUserPostList);
 
-router.post('/post', isAuth, handleErrorAsync(postsControllers.createPost));
+router.post('/post', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['Post']
+   * #swagger.summary = 'Create post'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+    * #swagger.parameters['obj] = {
+      in: 'body',
+      required: true,
+      description: 'Create post',
+      schema: {
+        $name: 'abc',
+        image: '',
+        $content: 'hello',
+        $type: 'group',
+        $tags: ['node', 'f2e'],
+      }
+    }
+   */
 
-router.patch('/post/:id', isAuth, handleErrorAsync(postsControllers.updatePostByID));
+  postsControllers.createPost(req, res, next);
+}));
 
-router.post('/post/:id/like', isAuth, handleErrorAsync(postsControllers.addLike));
+router.patch('/post/:id', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['Post']
+   * #swagger.summary = 'Update post by Id'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+    * #swagger.parameters['obj] = {
+      in: 'body',
+      description: 'Update post',
+      required: true,
+      schema: {
+        $content: 'hello222',
+      }
+    }
+   */
 
-router.delete('/post/:id/like', isAuth, handleErrorAsync(postsControllers.deleteLike));
+  postsControllers.updatePostByID(req, res, next);
+}));
+
+router.post('/post/:id/like', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['Post']
+   * #swagger.summary = 'Add post like by Id'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
+  
+  postsControllers.addLike(req, res, next);
+}));
+
+router.delete('/post/:id/like', isAuth, handleErrorAsync(async(req, res, next) => {
+  /**
+   * #swagger.tags = ['Post']
+   * #swagger.summary = 'Delete post like by Id'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
+
+  postsControllers.deleteLike(req, res, next);
+}));
 
 router.delete('/posts', isAuth, postsControllers.deletePosts);
 
-router.delete('/post/:id', isAuth, handleErrorAsync(postsControllers.deletePostByID));
+router.delete('/post/:id', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['Post']
+   * #swagger.summary = 'Delete post by Id'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
 
-router.post('/post/:id/comment', isAuth, handleErrorAsync(postsControllers.addComment));
+  postsControllers.deletePostByID(req, res, next);
+}));
+
+router.post('/post/:id/comment', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['Post']
+   * #swagger.summary = 'Add post comment by Id'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
+
+  postsControllers.addComment(req, res, next);
+}));
 
 module.exports = router;

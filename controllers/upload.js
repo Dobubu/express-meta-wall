@@ -6,13 +6,6 @@ const handleError = require('../service/handleError');
 
 const upload = {
   async uploadImgur(req, res, next) {
-    /**
-     * #swagger.tags = ['Upload']
-     * #swagger.summary = 'Upload file to imgur'
-     * #swagger.security = [{
-        "apiKeyAuth": []
-      }]
-     */
     if(!req.files.length) {
       return handleError('尚未上傳檔案', next);
     };
