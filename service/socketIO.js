@@ -7,6 +7,14 @@ const getSocketIO = () => io;
 const connection = () => {
   io.on('connection', socket => {
     console.log('socket connection', socket.id);
+
+    socket.on('post:create', payload => {
+      const { userId, content } = payload;
+
+      io.emit('post:list', content);
+
+      // socket.broadcast.emit('post:list', content);
+    });
     
     socket.on('disconnect', () => {
         console.log('socket disconnected');
