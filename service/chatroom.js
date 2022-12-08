@@ -1,5 +1,7 @@
 const WebSocket = require('ws');
 
+const chatControllers = require('../controllers/chat');
+
 let wss;
 
 const getWebSocket = () => wss;
@@ -22,6 +24,9 @@ const connection = () => {
           cmd: 'APP_Init_Response',
           content,
         };
+
+        const newMessage = await chatControllers.addMessage(payload);
+        console.log('create db message:WEB_Init', newMessage);
       }
 
       if(msg.cmd === "WEB_User_Leave") {
@@ -34,6 +39,9 @@ const connection = () => {
           cmd: 'APP_User_Leave_Response',
           content,
         };
+
+        const newMessage = await chatControllers.addMessage(payload);
+        console.log('create db message:WEB_User_Leave', newMessage);
       }
 
       if(msg.cmd === "WEB_Add_Message") {
@@ -46,6 +54,9 @@ const connection = () => {
           cmd: 'APP_Add_Message_Response',
           content,
         };
+
+        const newMessage = await chatControllers.addMessage(payload);
+        console.log('create db message:WEB_Add_Message', newMessage);
       }
 
       if(msg.cmd === "WEB_Typing") {
