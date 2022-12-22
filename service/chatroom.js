@@ -6,6 +6,8 @@ let wss;
 
 const getWebSocket = () => wss;
 
+let count = 0;
+
 const connection = () => {
   wss.on('connection', function connection(ws) {
     console.log('wss:client connection')
@@ -27,6 +29,7 @@ const connection = () => {
 
         const newMessage = await chatControllers.addMessage(payload);
         console.log('create db message:WEB_Init', newMessage);
+        count += 1;
       }
 
       if(msg.cmd === "WEB_User_Leave") {
@@ -42,6 +45,7 @@ const connection = () => {
 
         const newMessage = await chatControllers.addMessage(payload);
         console.log('create db message:WEB_User_Leave', newMessage);
+        count -= 1;
       }
 
       if(msg.cmd === "WEB_Add_Message") {
@@ -72,9 +76,17 @@ const connection = () => {
       let clients = wss.clients
       clients.forEach(client => {
         client.send(JSON.stringify(payload))
+        
+        if(payload.cmd === 'APP_Init_Response' || payload.cmd === 'APP_User_Leave_Response') {
+          client.send(JSON.stringify({
+            role: 'system',
+            total: count,
+            cmd: 'APP_Online_Total_Response'
+          }))
+        }
       })
       
-      console.log('msg: ', msg);
+      console.log('msg: ', count, msg);
       // ws.send(data.toString());
     })
 
