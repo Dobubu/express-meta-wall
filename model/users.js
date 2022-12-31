@@ -13,7 +13,10 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       select: false
     },
-    photo: String,
+    photo: {
+      type: String,
+      default: '',
+    },
     sex: {
       type: String,
       enum:['male', 'female'],
@@ -51,7 +54,11 @@ const UserSchema = new mongoose.Schema(
           default: Date.now
         }
       }
-    ]
+    ],
+    theme: {
+      type: String,
+      default: 'theme-rilakkuma',
+    },
   },
   {
     versionKey: false,

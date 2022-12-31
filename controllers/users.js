@@ -149,6 +149,16 @@ const users = {
 
     generateSendJWT(updateUser, res);
   },
+  async updateTheme(req, res, next) {
+    const { theme } = req.body;
+
+    const payload = { 
+      theme
+    };
+
+    const updateUser = await User.findByIdAndUpdate(req.user.id, payload, { new: true });
+    handleSuccess(res, updateUser);
+  },
   async fetchLikesList(req, res) {
     const id = req.user.id;
 

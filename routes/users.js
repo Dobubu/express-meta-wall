@@ -64,6 +64,18 @@ router.post('/user/updatePassword', isAuth, handleErrorAsync(async (req, res, ne
   usersControllers.updatePassword(req, res, next);
 }));
 
+router.patch('/user/theme', isAuth, handleErrorAsync(async (req, res, next) => {
+  /**
+   * #swagger.tags = ['User']
+   * #swagger.summary = 'Update user theme'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   */
+
+  usersControllers.updateTheme(req, res, next);
+}));
+
 router.get('/user/likes/list', isAuth, handleErrorAsync(async (req, res, next) => {
   /**
    * #swagger.tags = ['User']
